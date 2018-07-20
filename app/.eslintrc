@@ -1,5 +1,6 @@
 {
   "rules": {
+    "promise/catch-or-return": "off",
     "flowtype/boolean-style": ["error", "boolean"],
     "flowtype/define-flow-type": "warn",
     "flowtype/delimiter-dangle": ["error", "never"],

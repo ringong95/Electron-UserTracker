@@ -1,10 +1,10 @@
 // @flow
 import React, { Component } from 'react';
-import Papa from "papaparse";
+import Papa from 'papaparse';
 import axios from 'axios';
 
 import { Link } from 'react-router-dom';
-import styles from './Home.css';
+import styles from '../HomePage/index.css';
 
 type Props = {};
 
@@ -14,37 +14,44 @@ export default class Home extends Component<Props> {
     super(props);
     this.state = {
       file: null,
-      submited: false,
-    }
-    this.onFormSubmit = this.onFormSubmit.bind(this)
-    this.onChange = this.onChange.bind(this) 
+      submited: false
+    };
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onFormSubmit(e) {
-    e.preventDefault() // Stop form submit
+    e.preventDefault(); // Stop form submit
     Papa.parse(this.state.file, {
-      complete: (data) => {
-        console.log("All done!");
-        const url = "http://192.168.1.211:3001/export ";
+      complete: data => {
+        console.log('All done!');
+        const url = 'http://192.168.1.211:3001/export ';
         const headlessData = data.data.slice(1);
         headlessData.map(indData => {
+          console.log(indData[43]);
           axios
-            .post(url, JSON.stringify(indData))
-            .then(response => console.log(response));
-            return true;
+            .post(
+              url,
+              { data: JSON.stringify(indData) },
+              {
+                'Content-Type': 'application/json'
+              }
+            )
+            .catch(error => {
+              console.log(error);
+            })
+            .then(response => response);
+          return indData;
         });
-      
       }
     });
-   
   }
   onChange(e) {
-    this.setState({ file: e.target.files[0] })
+    this.setState({ file: e.target.files[0] });
   }
- 
+
   processFile(theFile) {
     console.log(theFile);
-   
   }
 
   render() {
@@ -59,9 +66,10 @@ export default class Home extends Component<Props> {
           <form onSubmit={this.onFormSubmit}>
             <h1>File Upload</h1>
             <input type="file" onChange={this.onChange} />
-            <button disabled={this.state.submited} type="submit">Upload</button>
+            <button disabled={this.state.submited} type="submit">
+              Upload
+            </button>
           </form>
-
         </div>
       </div>
     );

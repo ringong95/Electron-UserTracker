@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Home.css';
+import styles from './index.css';
 
 type Props = {};
 
@@ -15,7 +15,6 @@ export default class Home extends Component<Props> {
           <h2>Home</h2>
           <Link to="/counter">to Counter</Link>
           <Link to="/import">to Import</Link>
-          
         </div>
       </div>
     );
