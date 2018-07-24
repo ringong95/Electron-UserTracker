@@ -1,7 +1,12 @@
 .container {
   position: absolute;
-  top: 30%;
+  top: 10%;
   left: 10px;
+  margin: 0 auto;
+  height: 95%;
+  width: 100%;
+  overflow: auto;
+  overflow-y: scroll;
   text-align: center;
 }
 
