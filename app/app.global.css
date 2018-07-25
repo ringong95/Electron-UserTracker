@@ -41,3 +41,8 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+
+p{
+  font-size: 1.25em;
+}

@@ -29,9 +29,10 @@ class ViewDb extends Component {
             <button> populate infomation </button>
           </form>
           {
+            
                 queriedData.length > 1 && queriedData.map((data) =>(<DataCard 
                   key={data._id} 
-                  date={data.dateOfPurchase}
+                  dateOfPurchase={data.dateOfPurchase}
                   email={data.user_email}
                   dateToContact={data.dateToContact}
                   products={data.order}

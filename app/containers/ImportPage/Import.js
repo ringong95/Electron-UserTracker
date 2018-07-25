@@ -25,7 +25,7 @@ export default class Home extends Component<Props> {
     Papa.parse(this.state.file, {
       complete: data => {
         console.log('All done!');
-        const url = 'http://192.168.1.211:3001/export';
+        const url = 'http://192.168.1.64:3001/export';
         const headlessData = data.data.slice(1);
         headlessData.map(indData => {
           console.log(indData[43]);

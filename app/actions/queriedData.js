@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
-const url = 'http://192.168.1.211:3001/fetchColdCallData';
+const url = 'http://192.168.1.64:3001/fetchColdCallData';
 
 
 
