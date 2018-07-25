@@ -15,6 +15,7 @@ export default class Home extends Component<Props> {
           <h2>Home</h2>
           <Link to="/ViewDB">to view data base</Link>
           <Link to="/import">to Import</Link>
+          <Link to="/VerifyAndSend">to VerifyAndSend</Link>          
         </div>
       </div>
     );
