@@ -9,6 +9,19 @@ type Props = {};
 
 class VerifyAndSendPage extends Component<Props> {
   props: Props;
+  componentDidMount() {
+    this.timerID = setInterval(
+     this.emailAndUpdate,
+      1000
+    );
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+  emailAndUpdate(){
+    console.log('send email here')
+    console.log('update to mongo here')
+  }
   render() {
     return <Verify />;
   }
