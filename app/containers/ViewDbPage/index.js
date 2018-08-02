@@ -12,9 +12,9 @@ type Props = {};
 
 class ViewDbPage extends Component<Props> {
   props: Props;
-  render() {
+  render() {  
+    console.log(this.props.queriedData)
     
-    console.log()    
     return <ViewDb fetchColdCallData={this.props.fetchColdCallData} queriedData={this.props.queriedData} />;
   }
 }

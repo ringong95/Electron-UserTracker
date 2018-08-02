@@ -8,8 +8,7 @@ import PropTypes from 'prop-types';
 import styles from './index.css';
 import DataCard from '../../components/DataCard'
 
-const handleSubmit = (event, fetchColdCallData, queriedData) =>{
-  console.log(queriedData)
+const handleSubmit = (event, fetchColdCallData) =>{
   fetchColdCallData('');
   event.preventDefault();
 }
@@ -25,7 +24,7 @@ const ViewDb = ({ fetchColdCallData, queriedData })=> (
 
     <div className={styles.container} data-tid="container">
       <h2>ViewDb</h2>
-      <form onSubmit={(e) => { handleSubmit(e, fetchColdCallData, queriedData)}}>
+      <form onSubmit={(e) => { handleSubmit(e, fetchColdCallData)}}>
         <button> populate infomation </button>
       </form>
       {

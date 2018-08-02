@@ -1,15 +1,14 @@
 import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
-const url = 'http://192.168.1.64:3001/fetchColdCallData';
+const url = 'http://192.168.1.212:3001/fetchColdCallData';
 
 
 
 export const loadData = (data) => ({
     type:LOADDATA,
-    payload: data,
-  }
-)
+    payload: data, 
+})
 
 const getRequestHeader = {
   method: 'GET',
@@ -20,7 +19,7 @@ const getRequestHeader = {
   },
   credentials: 'include',
 };
-
+  
 export const fetchColdCallData = () => (dispatch) => {
   console.log('tst')
   axios
@@ -30,7 +29,10 @@ export const fetchColdCallData = () => (dispatch) => {
     ).catch((error)=> {
       console.log(error);
     })
-    .then((response) => response.data)
-    .then((json) => dispatch(loadData(json)))
+    .then((response) => {
+      console.log('what append')
+      console.log(response.data)
+      return dispatch(loadData(response.data))
+    })  
 
 }

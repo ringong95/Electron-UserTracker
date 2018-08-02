@@ -19,6 +19,7 @@ class VerifyAndSendPage extends Component<Props> {
     clearInterval(this.timerID);
   }
   emailAndUpdate(){
+    // Todo Send emails baised off mailchimp API
     console.log('send email here')
     console.log('update to mongo here')
   }
