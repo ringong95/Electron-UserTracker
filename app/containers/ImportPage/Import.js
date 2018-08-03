@@ -25,23 +25,24 @@ export default class Home extends Component<Props> {
     Papa.parse(this.state.file, {
       complete: data => {
         console.log('All done!');
-        const url = 'http://192.168.1.212:3001/export';
+        const url = 'http://192.168.1.72:3001/export';
         const headlessData = data.data.slice(1);
         headlessData.map(indData => {
-          console.log(indData[43]);
-          axios
-            .post(
-              url,
-              { data: JSON.stringify(indData) },
-              {
-                'Content-Type': 'application/json'
-              }
-            )
-            .catch(error => {
-              console.log(error);
-            })
-            .then(response => response);
-          return indData;
+          if( /(Deluxe Kit)|(Emergency Kit)/g.test(indData[17] )){
+            axios
+              .post(
+                url,
+                { data: JSON.stringify(indData) },
+                {
+                  'Content-Type': 'application/json'
+                }
+              )
+              .catch(error => {
+                console.log(error);
+              })
+              .then(response => response);
+            return indData;
+          }
         });
       }
     });

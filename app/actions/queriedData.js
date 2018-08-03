@@ -1,13 +1,19 @@
 import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
-const url = 'http://192.168.1.212:3001/fetchColdCallData';
+export const SLICEOFFTEN = 'SLICEOFFTEN';
+const url = 'http://192.168.1.72:3001/fetchColdCallData';
 
 
 
 export const loadData = (data) => ({
     type:LOADDATA,
     payload: data, 
+})
+
+export const spliceOfTen = (amount) => ({
+  type: SLICEOFFTEN,
+  payload: amount,
 })
 
 const getRequestHeader = {
