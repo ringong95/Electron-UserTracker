@@ -12,17 +12,18 @@ type Props = {};
 class VerifyAndSendPage extends Component<Props> {
   props: Props;
   componentDidMount() {
-    this.timerID = setInterval(
-     ()=>this.emailAndUpdate(),
-      1000
-    );
+    // this.timerID = setInterval(
+    //  ()=>this.emailAndUpdate(),
+    //   1000
+    // );
+    this.emailAndUpdate()
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
-  }
+  } 
   addMailChimpList(firstTen){
 
-// TO DO thin list and send db thins
+// TO DO thin list and send db
 
     const formatedRequestBody = firstTen.map((i)=>{
       const FirstName = i.user.name.split(' ')[0]
@@ -34,10 +35,7 @@ class VerifyAndSendPage extends Component<Props> {
       }else if (i.order.product[0].name[0].substring(0,1)== 1){
         orderAmount = ''
       }
-      const rock = {
-        method: "POST",
-        path: "lists/ba2bacf526",
-        body: JSON.stringify({ 
+      const rock = { 
           email_address: i.user_email, 
           status: 'subscribed',
           merge_fields:{
@@ -48,12 +46,12 @@ class VerifyAndSendPage extends Component<Props> {
             PRODUCT: i.order.product[0].name,
             PRODLINK: `https://72hours.ca/collections/essential-emergency-kits/products/${orderAmount}person-food-and-water-replacement-kit` 
           }
-        })
-      }
+        }
+        console.log (rock)
      return rock 
     })
     console.log(formatedRequestBody)
-    const url = 'https://us18.api.mailchimp.com/3.0/batches'
+    const url = 'https://us18.api.mailchimp.com/3.0/lists/ba2bacf526'
     axios({
       method: 'post',
       url: url,    
@@ -62,7 +60,8 @@ class VerifyAndSendPage extends Component<Props> {
         'Authorization': 'Basic dGV4eHh4dDozOWZiNjlhNDg5YzM2NzAwZmI2OTkxOWY1ZjlkYzM1ZC11czE4' 
       },
       data:{
-        operations: formatedRequestBody
+        members: formatedRequestBody,
+        update_existing: true
       }
     })
     .catch(error => {
