@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
 export const SLICEOFFTEN = 'SLICEOFFTEN';
+export const UPDATESTATECONTACT = 'UPDATESTATECONTACT';
 const url = 'http://192.168.1.72:3001/fetchColdCallData';
 
 
@@ -14,6 +15,10 @@ export const loadData = (data) => ({
 export const spliceOfTen = (amount) => ({
   type: SLICEOFFTEN,
   payload: amount,
+})
+
+export const updateContactDB = ( ) => ({
+
 })
 
 const getRequestHeader = {

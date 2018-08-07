@@ -1,9 +1,11 @@
 // @flow
 
-import { LOADDATA, SIZETOSLICE } from '../actions/queriedData';
+import { LOADDATA, SIZETOSLICE, UPDATESTATECONTACT } from '../actions/queriedData';
 
 export default (state: array =[], action: actionType) => {
   switch (action.type) {
+    case UPDATESTATECONTACT:
+      return action.payload
     case LOADDATA:
       return action.payload.data.filter((thing, index, self) =>
         index === self.findIndex((t) => (
@@ -15,7 +17,7 @@ export default (state: array =[], action: actionType) => {
       ))
     )
     case SIZETOSLICE:
-    return state.splice(0, action.payload.amount)
+      return state.splice(0, action.payload.amount)
     default:
       return state;
   }

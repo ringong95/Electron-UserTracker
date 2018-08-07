@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import {fetchColdCallData, spliceOfTen} from '../../actions/queriedData'
-
+import { toMailChimp } from './../../lib/sendUsersToMailChimp'
+import { deleteActions } from '../../lib/deleteActions';
 import Verify from './VerifyAndSend';
 import { userInfo } from 'os';
 
@@ -21,61 +22,28 @@ class VerifyAndSendPage extends Component<Props> {
   componentWillUnmount() {
     clearInterval(this.timerID);
   } 
-  addMailChimpList(firstTen){
-
-// TO DO thin list and send db
-
-    const formatedRequestBody = firstTen.map((i)=>{
-      const FirstName = i.user.name.split(' ')[0]
-      const LastName = i.user.name.split(' ')[1]
-      // console.log (, i.order.product[0].name)
-      let orderAmount = `${i.order.product[0].name[0].substring(0,1)}-`
-      if(i.order.product[0].name[0].substring(0,1)>=4){
-        orderAmount = '4-'
-      }else if (i.order.product[0].name[0].substring(0,1)== 1){
-        orderAmount = ''
-      }
-      const rock = { 
-          email_address: i.user_email, 
-          status: 'subscribed',
-          merge_fields:{
-            EMAIL: i.user_email,
-            FNAME: FirstName,
-            LNAME: LastName,
-            PHONE: i.user.phone_number,
-            PRODUCT: i.order.product[0].name,
-            PRODLINK: `https://72hours.ca/collections/essential-emergency-kits/products/${orderAmount}person-food-and-water-replacement-kit` 
-          }
-        }
-        console.log (rock)
-     return rock 
-    })
-    console.log(formatedRequestBody)
-    const url = 'https://us18.api.mailchimp.com/3.0/lists/ba2bacf526'
-    axios({
-      method: 'post',
-      url: url,    
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic dGV4eHh4dDozOWZiNjlhNDg5YzM2NzAwZmI2OTkxOWY1ZjlkYzM1ZC11czE4' 
-      },
-      data:{
-        members: formatedRequestBody,
-        update_existing: true
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    })
-    .then(response => console.log(response));
-    
-  }
-  emailAndUpdate(){
+  emailAndUpdate=() =>{
     const sizeToSlice = 10
     const firstTen = this.props.queriedData.slice(0, sizeToSlice)
-    this.addMailChimpList(firstTen)
-    // Todo Send emails baised off mailchimp API
+    const toMailChimpBound = toMailChimp.bind(this)
+    toMailChimpBound(firstTen, this.updateContactStatus)
+  }
+  updateContactStatus = (response)=>{
 
+    console.log('wher are we now')
+    let combinedArray = [];
+    const thinnedResponse = response.data.new_members.map((member)=>{
+       return "rocktime"
+    })
+    thinnedResponse.forEach((itm, i) => {
+      combinedArray.push(Object.assign({}, itm, this.props.queriedData[i]));
+    });
+    console.log('rock',response.data.new_members, this.props.queriedData, combinedArray )
+    const toRemove = combinedArray.map((eachUser)=>{
+      //  return deleteActions(eachUser)
+      
+
+    })
   }
   render() {
     return <Verify />;
@@ -84,7 +52,7 @@ class VerifyAndSendPage extends Component<Props> {
 
 const mapDispatchToProps = dispatch => ({
   fetchColdCallData: data => dispatch(fetchColdCallData(data)),
-  addMailChimpList: firstTen => dispatch(firstTen(firstTen))
+  updateContactDB: data => dispatch(updateContactDB(data))
 });
 
 const mapStateToProps = (state) => ({
