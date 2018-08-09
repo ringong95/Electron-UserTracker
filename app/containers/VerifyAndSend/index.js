@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import { updateContactDB } from '../../actions/queriedData'
-import { toMailChimp } from './../../lib/sendUsersToMailChimp'
+import { toMailService } from './../../lib/sendUsersToMailService'
 import { deleteActions } from '../../lib/deleteActions';
 import Verify from './VerifyAndSend';
 import { userInfo } from 'os';
@@ -25,8 +25,8 @@ class VerifyAndSendPage extends Component<Props> {
   emailAndUpdate=() =>{
     const sizeToSlice = 10
     const firstTen = this.props.queriedData.slice(0, sizeToSlice)
-    const toMailChimpBound = toMailChimp.bind(this)
-    toMailChimpBound(firstTen, this.updateContactStatus, this.failureToEmail)
+    const toMailServiceBound = toMailService.bind(this)
+    toMailServiceBound(firstTen, this.updateContactStatus, this.failureToEmail)
   }
   failureToEmail=(err)=>{
     console.log(err)

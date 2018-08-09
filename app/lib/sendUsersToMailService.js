@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const toMailChimp = (firstTen, _callback, failureCallback) =>{
+export const toMailService = (firstTen, _callback, failureCallback) =>{
     const formatedRequestBody = firstTen.map((i)=>{
         const FirstName = i.user.name.split(' ')[0]
         const LastName = i.user.name.split(' ')[1]
@@ -12,39 +12,51 @@ export const toMailChimp = (firstTen, _callback, failureCallback) =>{
           orderAmount = ''
         }
         const rock = { 
-            email_address: i.user_email, 
+            email: i.user_email, 
             status: 'subscribed',
-            merge_fields:{
-              EMAIL: i.user_email,
               FNAME: FirstName,
               LNAME: LastName,
               PHONE: i.user.phone_number,
               PRODUCT: i.order.product[0].name,
               PRODLINK: `https://72hours.ca/collections/essential-emergency-kits/products/${orderAmount}person-food-and-water-replacement-kit` 
-            }
           }
 
        return rock 
       })
-
-      const url = 'https://us18.api.mailchimp.com/3.0/lists/ba2bacf526'
+      // 
+      const url = 'https://a.klaviyo.com/api/v2/list/KgytC4'
       axios({
         method: 'post',
-        url: url,    
+        url: `${url}/members`,    
         headers:{
           'Content-Type': 'application/json',
-          'Authorization': 'Basic dGV4eHh4dDozOWZiNjlhNDg5YzM2NzAwZmI2OTkxOWY1ZjlkYzM1ZC11czE4' 
         },
         data:{
-          members: formatedRequestBody,
-          update_existing: true
+          profiles: formatedRequestBody,
+        	api_key: "pk_ba589c187b63ed8c810099bddc99371972",
         }
       })
       .catch(error => {
         failureCallback(error)
       })
       .then(response =>{
-        _callback(response)
+        axios({
+          method: 'post',
+          url: `${url}/subscribe`,    
+          headers:{
+            'Content-Type': 'application/json',
+          },
+          data:{
+            profiles: formatedRequestBody,
+            api_key: "pk_ba589c187b63ed8c810099bddc99371972",
+          }
+        })
+        .catch(error => {
+          failureCallback(error)
+        })
+        .then(response =>{
+          _callback(response)
+        });
       });
 
 }
