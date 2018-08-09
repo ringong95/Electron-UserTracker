@@ -21,7 +21,7 @@ class ViewDbPage extends Component<Props> {
 
 ViewDbPage.defaultProps = {
   queriedData: []
-};
+};  
 ViewDbPage.propTypes = {
   fetchColdCallData: PropTypes.func.isRequired,
   queriedData: PropTypes.arrayOf()

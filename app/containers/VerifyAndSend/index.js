@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
-import {fetchColdCallData, spliceOfTen} from '../../actions/queriedData'
+import { updateContactDB } from '../../actions/queriedData'
 import { toMailChimp } from './../../lib/sendUsersToMailChimp'
 import { deleteActions } from '../../lib/deleteActions';
 import Verify from './VerifyAndSend';
@@ -26,32 +26,33 @@ class VerifyAndSendPage extends Component<Props> {
     const sizeToSlice = 10
     const firstTen = this.props.queriedData.slice(0, sizeToSlice)
     const toMailChimpBound = toMailChimp.bind(this)
-    toMailChimpBound(firstTen, this.updateContactStatus)
+    toMailChimpBound(firstTen, this.updateContactStatus, this.failureToEmail)
   }
+  failureToEmail=(err)=>{
+    console.log(err)
+  }
+
   updateContactStatus = (response)=>{
+    const sizeToSlice = 10
+    const firstTen = this.props.queriedData.slice(0, sizeToSlice)
+    if(response.data.error_count > 0){
+      console.log('error')
+      response.data.errors.forEach((element) => {
+        console.log(element);
+      });
+      // return null
+    }
 
-    console.log('wher are we now')
-    let combinedArray = [];
-    const thinnedResponse = response.data.new_members.map((member)=>{
-       return "rocktime"
-    })
-    thinnedResponse.forEach((itm, i) => {
-      combinedArray.push(Object.assign({}, itm, this.props.queriedData[i]));
-    });
-    console.log('rock',response.data.new_members, this.props.queriedData, combinedArray )
-    const toRemove = combinedArray.map((eachUser)=>{
-      //  return deleteActions(eachUser)
-      
+    this.props.updateContactDB(firstTen)
 
-    })
   }
+  
   render() {
     return <Verify />;
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchColdCallData: data => dispatch(fetchColdCallData(data)),
   updateContactDB: data => dispatch(updateContactDB(data))
 });
 

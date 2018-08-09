@@ -1,25 +1,46 @@
 import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
-export const SLICEOFFTEN = 'SLICEOFFTEN';
 export const UPDATESTATECONTACT = 'UPDATESTATECONTACT';
-const url = 'http://192.168.1.72:3001/fetchColdCallData';
 
 
 
 export const loadData = (data) => ({
-    type:LOADDATA,
-    payload: data, 
+  type:LOADDATA,
+  payload: data, 
 })
 
-export const spliceOfTen = (amount) => ({
-  type: SLICEOFFTEN,
-  payload: amount,
+export const updateStateContact = (data) =>({
+  type:UPDATESTATECONTACT,
+  payload: data
 })
 
-export const updateContactDB = ( ) => ({
+const url = 'http://192.168.1.72:3001';
 
-})
+
+
+export const updateContactDB = ( stateData   ) => (dispatch)=>{
+  const sentObject = stateData.map((eachOrder)=>{
+    return { id:eachOrder._id, email: eachOrder.user.email}
+  })
+  axios
+  .post(
+    `${url}/updateContact`,
+    { data: JSON.stringify( sentObject) },
+    {
+      'Content-Type': 'applicat ion/json'
+    }
+  )
+  .catch(error => {
+    console.log(error);
+  })
+  .then(response => {
+    // console.log(response)
+    return dispatch(updateStateContact(sentObject))
+  });
+  
+  
+}
 
 const getRequestHeader = {
   method: 'GET',
@@ -30,20 +51,18 @@ const getRequestHeader = {
   },
   credentials: 'include',
 };
-  
-export const fetchColdCallData = () => (dispatch) => {
-  console.log('tst')
-  axios
-    .get(
-      url,
-      getRequestHeader  
-    ).catch((error)=> {
-      console.log(error);
-    })
-    .then((response) => {
-      console.log('what append')
-      console.log(response.data)
-      return dispatch(loadData(response.data))
-    })  
 
+export const fetchColdCallData = () => (dispatch) => {
+  axios
+  .get(
+    `${url}/fetchColdCallData`,
+    getRequestHeader  
+  ).catch((error)=> {
+    console.log(error);
+  })
+  .then((response) => {
+    console.log(response)
+    return dispatch(loadData(response.data))
+  })  
+  
 }

@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-export const toMailChimp = (firstTen, _callback) =>{
-    console.log(this, firstTen)
-    console.log('hello?')
+export const toMailChimp = (firstTen, _callback, failureCallback) =>{
     const formatedRequestBody = firstTen.map((i)=>{
         const FirstName = i.user.name.split(' ')[0]
         const LastName = i.user.name.split(' ')[1]
-        // console.log (, i.order.product[0].name)
+
         let orderAmount = `${i.order.product[0].name[0].substring(0,1)}-`
         if(i.order.product[0].name[0].substring(0,1)>=4){
           orderAmount = '4-'
@@ -25,10 +23,10 @@ export const toMailChimp = (firstTen, _callback) =>{
               PRODLINK: `https://72hours.ca/collections/essential-emergency-kits/products/${orderAmount}person-food-and-water-replacement-kit` 
             }
           }
-          console.log (rock)
+
        return rock 
       })
-      console.log(formatedRequestBody)
+
       const url = 'https://us18.api.mailchimp.com/3.0/lists/ba2bacf526'
       axios({
         method: 'post',
@@ -43,7 +41,7 @@ export const toMailChimp = (firstTen, _callback) =>{
         }
       })
       .catch(error => {
-        console.log(error);
+        failureCallback(error)
       })
       .then(response =>{
         _callback(response)
