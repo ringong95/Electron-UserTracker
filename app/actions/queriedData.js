@@ -34,10 +34,9 @@ export const updateContactDB = ( stateData   ) => (dispatch)=>{
   .catch(error => {
     console.log(error);
   })
-  .then(response => {
-    // console.log(response)
-    return dispatch(updateStateContact(sentObject))
-  });
+  .then(() => (
+    dispatch(updateStateContact(sentObject))
+  ));
   
   
 }

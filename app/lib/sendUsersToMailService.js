@@ -8,7 +8,7 @@ export default(firstTen, _callback, failureCallback) =>{
         let orderAmount = `${i.order.product[0].name[0].substring(0,1)}-`
         if(i.order.product[0].name[0].substring(0,1)>=4){
           orderAmount = '4-'
-        }else if (i.order.product[0].name[0].substring(0,1)== 1){
+        }else if (i.order.product[0].name[0].substring(0,1) === 1){
           orderAmount = ''
         }
         const rock = { 
@@ -39,7 +39,7 @@ export default(firstTen, _callback, failureCallback) =>{
       .catch(error => {
         failureCallback(error)
       })
-      .then(response =>{
+      .then(() =>(
         axios({
           method: 'post',
           url: `${url}/subscribe`,    
@@ -51,12 +51,11 @@ export default(firstTen, _callback, failureCallback) =>{
             api_key: "pk_ba589c187b63ed8c810099bddc99371972",
           }
         })
-        .catch(error => {
-          failureCallback(error)
-        })
-        .then(response =>{
+        .catch(error => (
+          (failureCallback(error))
+        ))
+        .then(response =>(
           _callback(response)
-        });
-      });
-
+        ))
+      ))
 }

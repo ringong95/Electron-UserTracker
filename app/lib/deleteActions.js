@@ -1,5 +1,5 @@
-export const deleteActions = (each) =>{
-    return {
+export default () =>(
+    {
         
     }
-}
+)

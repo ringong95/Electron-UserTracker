@@ -1,12 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux'
 import { updateContactDB } from '../../actions/queriedData'
 import  toMailService  from './../../lib/sendUsersToMailService'
-import { deleteActions } from '../../lib/deleteActions';
 import Verify from './VerifyAndSend';
-import { userInfo } from 'os';
 
 type Props = {};
 
