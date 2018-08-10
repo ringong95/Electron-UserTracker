@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const toMailService = (firstTen, _callback, failureCallback) =>{
+export default(firstTen, _callback, failureCallback) =>{
     const formatedRequestBody = firstTen.map((i)=>{
         const FirstName = i.user.name.split(' ')[0]
         const LastName = i.user.name.split(' ')[1]
