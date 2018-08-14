@@ -2,13 +2,16 @@
 import React, { Component } from 'react';
 import Papa from 'papaparse';
 import axios from 'axios';
-
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import styles from '../HomePage/index.css';
+
+import { fetchColdCallData } from '../../actions/queriedData'
+import ViewDb from '../../components/ViewDb';
+import styles from './index.css';
 
 type Props = {};
 
-export default class Home extends Component<Props> {
+class ImportPage extends Component<Props> {
   props: Props;
   constructor(props) {
     super(props);
@@ -43,9 +46,14 @@ export default class Home extends Component<Props> {
               .then(response => response);
             return indData;
           }
+         
         });
+        this.props.fetchColdCallData()
+        
       }
     });
+           // setTimeout(    fetchColdCallData(), 0)
+
   }
   onChange(e) {
     this.setState({ file: e.target.files[0] });
@@ -64,6 +72,7 @@ export default class Home extends Component<Props> {
           </Link>
         </div>
         <div className={styles.container} data-tid="container">
+         <div className={styles.formcontainer}>
           <form onSubmit={this.onFormSubmit}>
             <h1>File Upload</h1>
             <input type="file" onChange={this.onChange} />
@@ -71,8 +80,24 @@ export default class Home extends Component<Props> {
               Upload
             </button>
           </form>
+         </div>
+
+          <ViewDb queriedData={this.props.queriedData} />
+
         </div>
+        
+        
       </div>
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchColdCallData: data => dispatch(fetchColdCallData(data)),
+});
+
+const mapStateToProps = (state) => ({
+  queriedData: state.queriedData
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImportPage)
