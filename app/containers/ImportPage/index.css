@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+  .formcontainer{
+      width: 100%;
+      margin: 50px;
+  }
+  .container h2 {
+    font-size: 5rem;
+  }
+  
+  .container a {
+    font-size: 1.4rem;
+  }
+  

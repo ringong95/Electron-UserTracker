@@ -11,7 +11,7 @@ export default (state: array =[], action: actionType) => {
           console.log(userData.user_email, payloadData.email)
           if (userData.user_email == payloadData.email){
             console.log('test')
-            return {...userData, contactedYet:true}
+            return {...userData, contactedYet:true, dateOfContact: new Date()}
           }
       
         }

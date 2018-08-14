@@ -12,23 +12,26 @@ class VerifyAndSendPage extends Component<Props> {
   componentDidMount() {
     // this.timerID = setInterval(
     //  ()=>this.emailAndUpdate(),
-    //   1000
+    //   60000
     // );
     this.emailAndUpdate()
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
   } 
-  emailAndUpdate=() =>{
+  emailAndUpdate=() => {
     const sizeToSlice = 10
     const firstTen = this.props.queriedData.slice(0, sizeToSlice)
     const toMailServiceBound = toMailService.bind(this)
-    toMailServiceBound(firstTen, this.updateContactStatus, this.failureToEmail)
+    toMailServiceBound(firstTen, this.sendOutSMS, this.failureToEmail,  this.updateContactStatus)
   }
-  failureToEmail=(err)=>{
+  failureToEmail = (err) =>{
     console.log(err)
   }
-
+  sendOutSMS = (response, _callback) => {
+      _callback(response)
+  }
+  
   updateContactStatus = (response)=>{
     const sizeToSlice = 10
     const firstTen = this.props.queriedData.slice(0, sizeToSlice)
@@ -39,9 +42,8 @@ class VerifyAndSendPage extends Component<Props> {
       });
       // return null
     }
-
+    
     this.props.updateContactDB(firstTen)
-
   }
   
   render() {

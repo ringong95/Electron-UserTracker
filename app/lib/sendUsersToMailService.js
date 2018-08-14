@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default(firstTen, _callback, failureCallback) =>{
+export default(firstTen, _callback, failureCallback, _secondCallback) =>{
     const formatedRequestBody = firstTen.map((i)=>{
         const FirstName = i.user.name.split(' ')[0]
         const LastName = i.user.name.split(' ')[1]
@@ -55,7 +55,8 @@ export default(firstTen, _callback, failureCallback) =>{
           (failureCallback(error))
         ))
         .then(response =>(
-          _callback(response)
+          _callback(response, _secondCallback)
+
         ))
       ))
 }
