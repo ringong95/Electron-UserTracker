@@ -7,13 +7,7 @@ import PropTypes from 'prop-types';
 import styles from './index.css';
 import DataCard from '../DataCard'
 
-const handleSubmit = (event, fetchColdCallData) =>{
-  fetchColdCallData('');
-  event.preventDefault();
-}
-
-
-const ViewDb = ({ queriedData, showContactStatus = false })=> (
+const ViewDb = ({ queriedData, showContactStatus })=> (
   <div>
     <div className={styles.container} data-tid="container">
       <h2>View the data</h2>
@@ -30,7 +24,6 @@ const ViewDb = ({ queriedData, showContactStatus = false })=> (
           acceptsMarketing={data.user.accepts_marketing}
           contactedStatus={showContactStatus&& null}
           dateOfContact={data.dateOfContact}
-          
         />))
       }
       </div>
@@ -39,10 +32,11 @@ const ViewDb = ({ queriedData, showContactStatus = false })=> (
   );
 
 ViewDb.defaultProps = {
-  queriedData: []
+  queriedData: [],
+  showContactStatus: false,
 };
 ViewDb.propTypes = {
-  fetchColdCallData: PropTypes.func.isRequired,
+  showContactStatus: PropTypes.bool,
   queriedData: PropTypes.arrayOf()
 }
   

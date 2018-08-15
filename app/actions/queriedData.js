@@ -2,14 +2,10 @@ import axios from 'axios';
 
 export const LOADDATA = 'LOADDATA';
 export const UPDATESTATECONTACT = 'UPDATESTATECONTACT';
-
-
-
 export const loadData = (data) => ({
   type:LOADDATA,
   payload: data, 
 })
-
 export const updateStateContact = (data) =>({
   type:UPDATESTATECONTACT,
   payload: data
@@ -17,12 +13,8 @@ export const updateStateContact = (data) =>({
 
 const url = 'http://192.168.1.72:3001';
 
-
-
 export const updateContactDB = ( stateData   ) => (dispatch)=>{
-  const sentObject = stateData.map((eachOrder)=>{
-    return { id:eachOrder._id, email: eachOrder.user.email}
-  })
+  const sentObject = stateData.map((eachOrder)=>({ id:eachOrder._id, email: eachOrder.user.email}))
   axios
   .post(
     `${url}/updateContact`,
@@ -37,8 +29,6 @@ export const updateContactDB = ( stateData   ) => (dispatch)=>{
   .then(() => (
     dispatch(updateStateContact(sentObject))
   ));
-  
-  
 }
 
 const getRequestHeader = {

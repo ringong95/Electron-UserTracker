@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { updateContactDB } from '../../actions/queriedData'
 import  toMailService  from './../../lib/sendUsersToMailService'
@@ -49,6 +50,17 @@ class VerifyAndSendPage extends Component<Props> {
   render() {
     return <Verify />;
   }
+}
+
+VerifyAndSendPage.defaultProps = {
+  queriedData: []
+}
+VerifyAndSendPage.propTypes = {
+  queriedData: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.any)
+    ),
+    updateContactDB: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

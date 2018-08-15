@@ -4,6 +4,7 @@ import Papa from 'papaparse';
 import axios from 'axios';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { fetchColdCallData } from '../../actions/queriedData'
 import ViewDb from '../../components/ViewDb';
@@ -37,7 +38,7 @@ class ImportPage extends Component<Props> {
         console.log('All done!');
         const url = 'http://192.168.1.72:3001/export';
         const headlessData = data.data.slice(1);
-        headlessData.map(indData => {
+        headlessData.forEach(indData => {
           const firstRow = data.data[0]
           if(this.CSVValidation(firstRow)){
             if( /(Deluxe Kit)|(Emergency Kit)/g.test(indData[17] )){
@@ -91,6 +92,16 @@ class ImportPage extends Component<Props> {
   }
 }
 
+ImportPage.defaultProps = {
+  queriedData: []
+}
+ImportPage.propTypes = {
+  queriedData: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.any)
+    ),
+  fetchColdCallData: PropTypes.func.isRequired
+}
 const mapDispatchToProps = dispatch => ({
   fetchColdCallData: data => dispatch(fetchColdCallData(data)),
 });
