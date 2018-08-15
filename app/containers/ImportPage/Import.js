@@ -35,20 +35,17 @@ class ImportPage extends Component<Props> {
     e.preventDefault(); // Stop form submit
     Papa.parse(this.state.file, {
       complete: data => {
-        console.log('All done!');
         const url = 'http://192.168.1.72:3001/export';
         const headlessData = data.data.slice(1);
+        const firstRow = headlessData[0]
+        if(this.CSVValidation(firstRow)){
         headlessData.forEach(indData => {
-          const firstRow = data.data[0]
-          if(this.CSVValidation(firstRow)){
             if( /(Deluxe Kit)|(Emergency Kit)/g.test(indData[17] )){
               axios
               .post(
                 url,
                 { data: JSON.stringify(indData) },
-                {
-                  'Content-Type': 'application/json'
-                }
+                { 'Content-Type': 'application/json' }
               )
               .catch(error => {
                 console.log(error);
@@ -56,10 +53,11 @@ class ImportPage extends Component<Props> {
               .then(response => response);
               return indData;
             } 
-          } 
         });
-        this.props.fetchColdCallData()   
-      }
+        this.props.fetchColdCallData() 
+      }else{
+        this.setState = { error: true };
+      }}
     });
   }
 

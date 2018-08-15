@@ -27,14 +27,14 @@ DataCard.defaultProps = {
 }
 
 DataCard.propTypes = {
-  dateOfPurchase:  PropTypes.objectOf(PropTypes.string).isRequired,
+  dateOfPurchase:  PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
-  dateToContact: PropTypes.objectOf(PropTypes.string).isRequired,
+  dateToContact: PropTypes.number.isRequired,
   // products: PropTypes.arrayOf(PropTypes.string).isRequired,
   name:PropTypes.string.isRequired,
   phoneNumber:PropTypes.string.isRequired,
   contactedStatus: PropTypes.bool.isRequired, 
-  dateOfContact: PropTypes.objectOf(PropTypes.string)
+  dateOfContact: PropTypes.number
 }
 
 export default DataCard
