@@ -22,7 +22,14 @@ class ImportPage extends Component<Props> {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
+  
+  CSVValidation= (firstRow)=>{
+    const email = firstRow[1]
+    const re = /\S+@\S+\.\S+/;
+    console.log(this.state)
+    return re.test(email);
+  }
+  
   onFormSubmit(e) {
     e.preventDefault(); // Stop form submit
     Papa.parse(this.state.file, {
@@ -31,8 +38,10 @@ class ImportPage extends Component<Props> {
         const url = 'http://192.168.1.72:3001/export';
         const headlessData = data.data.slice(1);
         headlessData.map(indData => {
-          if( /(Deluxe Kit)|(Emergency Kit)/g.test(indData[17] )){
-            axios
+          const firstRow = data.data[0]
+          if(this.CSVValidation(firstRow)){
+            if( /(Deluxe Kit)|(Emergency Kit)/g.test(indData[17] )){
+              axios
               .post(
                 url,
                 { data: JSON.stringify(indData) },
@@ -44,25 +53,19 @@ class ImportPage extends Component<Props> {
                 console.log(error);
               })
               .then(response => response);
-            return indData;
-          }
-         
+              return indData;
+            } 
+          } 
         });
-        this.props.fetchColdCallData()
-        
+        this.props.fetchColdCallData()   
       }
     });
-           // setTimeout(    fetchColdCallData(), 0)
-
   }
+
   onChange(e) {
     this.setState({ file: e.target.files[0] });
   }
-
-  processFile(theFile) {
-    console.log(theFile);
-  }
-
+  
   render() {
     return (
       <div>
@@ -72,21 +75,17 @@ class ImportPage extends Component<Props> {
           </Link>
         </div>
         <div className={styles.container} data-tid="container">
-         <div className={styles.formcontainer}>
-          <form onSubmit={this.onFormSubmit}>
-            <h1>File Upload</h1>
-            <input type="file" onChange={this.onChange} />
-            <button disabled={this.state.submited} type="submit">
-              Upload
-            </button>
-          </form>
-         </div>
-
-          <ViewDb queriedData={this.props.queriedData} />
-
+          <div className={styles.formcontainer}>
+            <form onSubmit={this.onFormSubmit}>
+              <h1>File Upload</h1>
+              <input type="file" onChange={this.onChange} />
+              <button disabled={this.state.submited} type="submit">
+               Upload
+              </button>
+            </form>
+          </div>
+          <ViewDb queriedData={this.props.queriedData} />     
         </div>
-        
-        
       </div>
     );
   }
