@@ -50,6 +50,13 @@ export const fetchColdCallData = () => (dispatch) => {
     console.log(error);
   })
   .then((response) => {
+    try {
+      console.log(response.data.data.length)
+  } catch (e) {
+    console.log(e)
+      // invalid json input, set to null
+
+  }
     console.log(response)
     return dispatch(loadData(response.data))
   })  

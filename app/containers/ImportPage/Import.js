@@ -35,6 +35,9 @@ class ImportPage extends Component<Props> {
   onFormSubmit(e) {
     e.preventDefault(); // Stop form submit
     Papa.parse(this.state.file, {
+      error: err => {
+        console.log(err)
+      },
       complete: data => {
         const url = 'http://192.168.1.72:3001/export';
         const headlessData = data.data.slice(1);
@@ -57,7 +60,7 @@ class ImportPage extends Component<Props> {
         });
         this.props.fetchColdCallData() 
       }else{
-        this.setState = { error: true };
+        this.setState = { error: "CSV format is incorrect" };
       }}
     });
   }

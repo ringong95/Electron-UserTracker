@@ -6,15 +6,16 @@ export default (state: array =[], action: actionType) => {
   switch (action.type) {
     case UPDATESTATECONTACT:
       return state.map(( userData )=>{
-        for(let payloadData of action.payload){
-          console.log(payloadData)
-          console.log(userData.user_email, payloadData.email)
-          if (userData.user_email == payloadData.email){
+        action.payload.forEach(()=> {
+          console.log(userData)
+          console.log(userData.user_email, userData.email)
+          if (userData.user_email === userData.email){
             console.log('test')
             return {...userData, contactedYet:true, dateOfContact: new Date()}
           }
       
         }
+      )
         return userData
       })
     case LOADDATA:
