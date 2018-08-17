@@ -1,4 +1,5 @@
 // @flow
+import axios from 'axios';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -29,8 +30,19 @@ class VerifyAndSendPage extends Component<Props> {
   failureToEmail = (err) =>{
     console.log(err)
   }
-  sendOutSMS = (response, _callback) => {
-      _callback(response)
+  sendOutSMS = (firstTen, _callback, prevResponse) => {
+    const url = 'http://192.168.1.72:3001/sendSms'; 
+    axios
+    .post(
+      url,
+      { data: JSON.stringify(firstTen) },
+      { 'Content-Type': 'application/json' }
+    )
+    .catch(error => {
+      console.log(error);
+    })
+    .then(response => response);
+    _callback(prevResponse)
   }
   
   updateContactStatus = (response)=>{
@@ -61,14 +73,14 @@ VerifyAndSendPage.propTypes = {
       PropTypes.any)
     ),
     updateContactDB: PropTypes.func.isRequired
-}
-
-const mapDispatchToProps = dispatch => ({
-  updateContactDB: data => dispatch(updateContactDB(data))
-});
-
-const mapStateToProps = (state) => ({
-  queriedData: state.queriedData
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyAndSendPage)
+  }
+  
+  const mapDispatchToProps = dispatch => ({
+    updateContactDB: data => dispatch(updateContactDB(data))
+  });
+  
+  const mapStateToProps = (state) => ({
+    queriedData: state.queriedData
+  })
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(VerifyAndSendPage)

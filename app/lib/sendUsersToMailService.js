@@ -55,7 +55,7 @@ export default(firstTen, _callback, failureCallback, _secondCallback) =>{
           (failureCallback(error))
         ))
         .then(response =>(
-          _callback(response, _secondCallback)
+          _callback(firstTen, _secondCallback, response)
 
         ))
       ))

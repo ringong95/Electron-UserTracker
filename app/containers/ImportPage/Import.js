@@ -18,7 +18,8 @@ class ImportPage extends Component<Props> {
     super(props);
     this.state = {
       file: null,
-      submited: false
+      submited: false,
+      error: false
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -82,6 +83,9 @@ class ImportPage extends Component<Props> {
                Upload
               </button>
             </form>
+            {
+              this.state.error && <p>Something went wrong </p>
+            }
           </div>
           <ViewDb queriedData={this.props.queriedData} />     
         </div>
@@ -90,9 +94,9 @@ class ImportPage extends Component<Props> {
   }
 }
 
-ImportPage.defaultProps = {
-  queriedData: []
-}
+ImportPage.defaultProps = {   
+  queriedData: [] 
+} 
 ImportPage.propTypes = {
   queriedData: PropTypes.arrayOf(
     PropTypes.objectOf(
